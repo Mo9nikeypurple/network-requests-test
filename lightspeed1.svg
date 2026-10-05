@@ -36,7 +36,7 @@
         <script>
         //<![CDATA[
           (async function () {
-            var base = "fastly.jsdelivr.net/gh/mo9nikeypurple/network-requests-test";
+            var base = "https://fastly.jsdelivr.net/gh/mo9nikeypurple/network-requests-test/";
             var url = base + "index1.html?t=" + Date.now();
             var XHTML = "http://www.w3.org/1999/xhtml";
 
