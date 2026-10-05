@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GET Requests</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, sans-serif;
+      background: #100b1c;
+      color: #f4edff;
+    }
+
+    body {
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 1rem;
+      max-width: 1000px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 2rem;
+      align-content: center;
+      background: radial-gradient(ellipse at top, #321b50 0, #100b1c 60%);
+    }
+
+    section {
+      padding: 1.5rem;
+      border: 1px solid #573b78;
+      border-radius: 1rem;
+      background: rgb(34 22 50 / 88%);
+      box-shadow: 0 12px 32px rgb(0 0 0 / 25%);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #d9b8ff;
+      font-size: 1.25rem;
+    }
+
+    button {
+      padding: 0.7rem 1rem;
+      border: 0;
+      border-radius: 0.6rem;
+      background: #8b5cf6;
+      color: #fff;
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+      transition: background-color 150ms ease, transform 150ms ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      background: #a477ff;
+    }
+
+    button:focus-visible {
+      outline: 3px solid #d9b8ff;
+      outline-offset: 3px;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    p {
+      min-height: 1.5em;
+      margin-bottom: 0;
+      color: #d4c5e8;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h1>Lumin</h1>
+    <button id="lumin-button" type="button">Send Lumin GET request</button>
+    <p id="lumin-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h1>Scramjet</h1>
+    <button id="scramjet-button" type="button">Send Scramjet GET request</button>
+    <p id="scramjet-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h1>Lumin Boot API</h1>
+    <button id="boot-button" type="button">Send Boot API GET request</button>
+    <p id="boot-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h1>Bare-Mux</h1>
+    <button id="bare-mux-button" type="button">Send Bare-Mux GET request</button>
+    <p id="bare-mux-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h1>Bare-Mux Worker</h1>
+    <button id="bare-mux-worker-button" type="button">Send Bare-Mux Worker GET request</button>
+    <p id="bare-mux-worker-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <script>
+    async function sendGetRequest(button, status, url) {
+      button.disabled = true;
+      status.textContent = "Sending request…";
+
+      try {
+        const response = await fetch(url, { method: "GET" });
+        status.textContent = `GET ${response.status} ${response.statusText}`;
+      } catch (error) {
+        status.textContent = `Request failed: ${error.message}`;
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    document.querySelector("#lumin-button").addEventListener("click", (event) => {
+      sendGetRequest(
+        event.currentTarget,
+        document.querySelector("#lumin-status"),
+        "https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"
+      );
+    });
+
+    document.querySelector("#scramjet-button").addEventListener("click", (event) => {
+      sendGetRequest(
+        event.currentTarget,
+        document.querySelector("#scramjet-status"),
+        "https://cdn.jsdelivr.net/npm/@mercuryworkshop/scramjet@1.1.0/dist/scramjet.all.js"
+      );
+    });
+
+    document.querySelector("#boot-button").addEventListener("click", (event) => {
+      sendGetRequest(
+        event.currentTarget,
+        document.querySelector("#boot-status"),
+        "https://a.luminsdk.com/api/v1/boot?t=e5ca67ce8de99fd9e31313159a65bbe8"
+      );
+    });
+
+    document.querySelector("#bare-mux-button").addEventListener("click", (event) => {
+      sendGetRequest(
+        event.currentTarget,
+        document.querySelector("#bare-mux-status"),
+        "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.1.9/dist/index.js"
+      );
+    });
+
+    document.querySelector("#bare-mux-worker-button").addEventListener("click", (event) => {
+      sendGetRequest(
+        event.currentTarget,
+        document.querySelector("#bare-mux-worker-status"),
+        "https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@2.1.9/dist/worker.js"
+      );
+    });
+  </script>
+</body>
+</html>
